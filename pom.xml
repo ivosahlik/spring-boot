@@ -22,6 +22,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<surefire.version>2.17</surefire.version>
+		<jacoco.version>0.7.9</jacoco.version>
 	</properties>
 
 	<dependencies>
@@ -43,8 +45,42 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-surefire-plugin</artifactId>
+			  <version>${surefire.version}</version>
+			</plugin>
+			<plugin>
+			    <groupId>org.jacoco</groupId>
+			    <artifactId>jacoco-maven-plugin</artifactId>
+			    <version>${jacoco.version}</version>
+			    <executions>
+				<execution>
+				    <id>default-prepare-agent</id>
+				    <goals><goal>prepare-agent</goal></goals>
+				</execution>
+				<execution>
+				    <id>default-report</id>
+				    <phase>prepare-package</phase>
+				    <goals><goal>report</goal></goals>
+				</execution>
+			    </executions>
+			</plugin>
 		</plugins>
 	</build>
+	
+	<profiles>
+		<profile>
+			<id>sonar</id>
+			<activation>
+			  <activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+			  <sonar.host.url>http://localhost:9000</sonar.host.url>
+			  <sonar.login>d32919aba48f160d4a3213bd2df430e4a661ba03</sonar.login>
+			</properties>
+		</profile>
+	</profiles>
 
 
 </project>
